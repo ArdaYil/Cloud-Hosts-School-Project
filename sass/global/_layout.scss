@@ -1,0 +1,16 @@
+
+
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 1em;
+
+    &__btn {
+        font-size: 2rem !important;
+    }
+}
+
+.footer {
+    background-color: var(--clr-primary);
+}

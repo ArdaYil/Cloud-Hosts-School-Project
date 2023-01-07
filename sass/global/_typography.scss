@@ -1,0 +1,33 @@
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+body {
+    font-family: "Open Sans";
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited, a:active {
+    text-decoration: none;
+    color: black
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+}

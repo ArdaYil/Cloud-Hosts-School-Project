@@ -1,16 +1,190 @@
 
 
+@use "../util" as u;
+
 .top-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-inline: 1em;
+    margin-inline: u.em(16);
+    margin-block: u.em(30);
 
     &__btn {
-        font-size: 2rem !important;
+        font-size: u.em(32) !important;
+    }
+}
+
+.hero {
+    &__image {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: u.em(120);
+        background-position-x: center;
+        background-size: cover;
+        padding-block: u.em(20);
+        margin-bottom: u.em(20);
+
+        background-image: url("../../public/images/world-image-small.webp");
+
+        &__main-text {
+            $text: &;
+
+            font-weight: 600;
+            color: white !important;
+
+            &--title {
+                @extend #{$text};
+
+                font-size: u.rem(25);
+            }
+        }
+    }
+
+    &__text {
+        font-size: u.rem(16);
+    }
+
+    &__benefit-container {
+        display: grid;
+        margin-bottom: u.em(30);
+        grid-template-areas: 
+            "one"
+            "two"
+            "three";
+
+        &__benefit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: u.em(20);
+            
+            svg {
+                width: u.em(70);
+                height: u.em(70);
+                margin-bottom: u.em(20);
+            }
+
+            p {
+                font-weight: 600;
+                font-size: u.em(20);
+            }
+        }
+    }
+}
+
+.plans {
+    display: grid;
+    margin-inline: auto;
+    gap: u.em(60);
+    grid-template-rows: repeat(3, 1fr);
+    width: 60%;
+    margin-bottom: u.em(40);
+
+    &__plan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: u.em(20);
+        padding: u.em(25);
+
+        &__section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: u.em(15);
+            justify-content: space-between;
+        }
+
+        &__button {
+            font-weight: 600;
+        }
+
+        &__title {
+            text-align: center;
+            font-weight: 600;
+            font-size: u.rem(20);
+        }
+
+        &__price {
+            font-size: u.rem(20);
+        }
+    }
+}
+
+.reviews {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: u.em(40);
+    margin-bottom: u.em(30);
+
+    &__title {
+        text-align: center;
+        margin-bottom: u.em(15);
+    }
+
+    &__review {
+        $root: &;
+        width: 60%;
+        margin-inline: auto;
+        padding: u.em(20);
+        gap: u.em(10);
+        display: flex;
+        flex-direction: column;
+
+        &__title {
+            text-align: center;
+            font-weight: 600;
+            font-size: u.rem(20);
+        }
+
+        &__star-container {
+            svg {
+                color: var(--clr-primary);
+            }
+        }
     }
 }
 
 .footer {
+    $gap: 15;
+
     background-color: var(--clr-primary);
+    display: grid;
+    gap: u.em($gap);
+    padding: u.em(10);
+    grid-template-areas: 
+        "footer-one"
+        "footer-two"
+        "footer-three"
+        "footer-four";
+
+    &__social-container {
+        img {
+            width: u.em(50);
+            height: u.em(50);
+        }
+    }
+
+    article {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: u.em($gap);
+    }
+
+    p, h2, a {
+        color: #fff;
+        text-align: center;
+    }
+}
+
+.more-reviews-link {
+    margin-inline: auto;
+    width: fit-content;
+    text-align: center;
+    margin-bottom: u.em(30);
 }

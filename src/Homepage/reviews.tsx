@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import AppContext from '../AppContext';
+import { ReviewInterface } from '../Interfaces';
+import { Link } from "react-router-dom";
 
 library.add(faStar)
 
@@ -24,45 +26,49 @@ class Reviews extends React.Component<ReviewsProps, ReviewsState> {
 
     state = {}
 
-    getReview = (key: number) => {
+    renderStars = (rating: number) => {
+        const stars = [];
+
+        for (let i = 0; i < rating; i++) {
+            stars.push(
+                <FontAwesomeIcon key={i} icon="star" />
+            )
+        }
+
+        return stars
+    }
+
+    getReview = (review: ReviewInterface) => {
         return (
-            <section key={key} className="review">
-                <h3>John Doe</h3>
+            <section key={review.id} className="reviews__review card--shadow">
+                <h3 className="reviews__review__title">{review.author}</h3>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing 
-                    elit. Molestiae corporis perferendis hic quos ducimus 
-                    vitae eum natus in dicta quas?
+                    {review.content}
                 </p>
-                <div className="star-container">
-                    <FontAwesomeIcon icon="star" />
-                    <FontAwesomeIcon icon="star" />
-                    <FontAwesomeIcon icon="star" />
-                    <FontAwesomeIcon icon="star" />
-                    <FontAwesomeIcon icon="star" />
+                <div className="reviews__review__star-container">
+                    {this.renderStars(review.rating)}
                 </div>
             </section>
         )
     }
 
     renderReviews = () => {
-        const {reviews: amount} = this.context!;
-        const reviews = [];
+        let {reviews, reviewLimit} = this.context;
+        reviews = reviews.slice(0, reviewLimit);
 
-        for (let i = 0; i < amount; i++) {
-            reviews.push(this.getReview(i))
-        }
-
-        return reviews
+        return reviews.map((review: ReviewInterface) => this.getReview(review));
     }
 
     render() { 
         return (
             <React.Fragment>
-                <h2 className="uppercase">reviews</h2>
+                <h2 className="title reviews__title uppercase">reviews</h2>
 
-                <article className="review-container">
+                <article className="reviews">
                     {this.renderReviews()}
                 </article>
+
+                <Link to="/" className="more-reviews-link btn btn--primary btn--medium">All Reviews</Link>
             </React.Fragment>
         );
     }

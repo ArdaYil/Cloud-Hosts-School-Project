@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { PlanInterface } from "../Interfaces";
 import AppContext from '../AppContext';
+import { Link } from 'react-router-dom';
 
 interface PlansProps {
     
@@ -20,16 +21,19 @@ class Plans extends React.Component<PlansProps, PlansState> {
 
     renderPlan = (plan : PlanInterface) => {
         return (
-            <article className="plan">
-                <h3 className="uppercase plan__title">{plan.title}</h3>
-                <p className="plan__description">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                    Labore voluptatem, ab necessitatibus mollitia quod consectetur 
-                    sint delectus fuga dicta laborum!
-                </p>
-                <p className="plan__price">
-                    ${plan.price} / Month
-                </p>
+            <article key={plan.title} className="plans__plan card--shadow">
+                <section className="plans__plan__section">
+                    <h3 className="uppercase plans__plan__title">{plan.title}</h3>
+                    <p className="plans__plan__description">
+                        {plan.description}
+                    </p>
+                </section>
+                <section className="plans__plan__section">
+                    <p className="plans__plan__price">
+                        ${plan.price} / Month
+                    </p>
+                    <Link to="/" className="btn--primary btn--medium plans__plan__button">Choose</Link>
+                </section>
             </article>
         )
     }
@@ -42,9 +46,9 @@ class Plans extends React.Component<PlansProps, PlansState> {
 
     render() { 
         return (
-            <React.Fragment>
+            <article className="plans">
                 {this.renderPlans()}
-            </React.Fragment>
+            </article>
         );
     }
 }

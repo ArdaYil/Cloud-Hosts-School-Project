@@ -1,0 +1,86 @@
+
+
+@use "functions" as f;
+
+%btn-primary {
+    color: white;
+    background-color: var(--clr-primary);
+}
+
+%btn-large {
+    font-size: f.rem(24);
+}
+
+%btn-medium {
+    font-size: f.rem(20);
+}
+
+%btn-small {
+    font-size: f.rem(16);
+}
+
+.btn {
+    $b: &;
+
+    border-radius: f.em(5);
+    padding-inline: f.em(10);
+    padding-block: f.em(5);
+
+    &--primary#{&}--large {
+        @extend #{$b};
+        @extend %btn-primary;
+        @extend %btn-large;
+    }
+
+    &--primary#{&}--small {
+        @extend #{$b};
+        @extend %btn-primary;
+        @extend %btn-small;
+    }
+
+    &--primary#{&}--medium {
+        @extend #{$b};
+        @extend %btn-primary;
+        @extend %btn-medium;
+    }
+}
+
+%card-base {
+    border-radius: f.em(25);
+}
+
+%card-shadow {
+    box-shadow: 0 0 20px black;
+}
+
+%shadow-hover {
+    @extend %card-shadow;
+    border: none;
+}
+
+.card {
+    @extend %card-base;
+    border: 1px solid black;
+
+    &--shadow {
+        @extend %card-base;
+        @extend %card-shadow;
+    }
+}
+
+.shadow-hover-effect {
+    @extend %shadow-hover;
+}
+
+.text-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: f.em(20);
+    margin-inline: auto;
+    margin-bottom: f.em(50);
+}
+
+.text-white {
+    color: white;
+}

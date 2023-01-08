@@ -20,22 +20,33 @@ interface AppState {
   reviews: ReviewInterface[];
   plans: PlanInterface[];
   reviewLimit: number;
+  navigationSidebarOpen: boolean;
+  onNavigationOpen(): void;
+  onNavigationClose(): void;
 }
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     plans: [],
     reviewLimit: 4,
-    reviews: []
+    reviews: [],
+    navigationSidebarOpen: false,
+    onNavigationOpen: () => {this.handleNavigationInput(true)},
+    onNavigationClose: () => {this.handleNavigationInput(false)}
   }
 
   componentDidMount = (): void => {
     this.setState({plans: getPlans(), reviews: getReviews()});
   }
 
+  handleNavigationInput = (value: boolean) => {
+    this.setState({navigationSidebarOpen: value});
+  }
+
   render(): JSX.Element { 
     return (
       <React.Fragment>
-        <MainNavbar />
+        <AppContext.Provider value={this.state}><MainNavbar /></AppContext.Provider>
+
         <Routes>
           <Route path="/" element={<AppContext.Provider value={this.state}><Homepage /></AppContext.Provider>}/>
         </Routes>

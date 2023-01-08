@@ -21,18 +21,18 @@ class Hero extends React.Component<HeroProps, HeroState> {
 
     renderTextContainer = () => {
         return (
-            <section className="text-contianer">
+            <section className="text-container">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. 
-                    Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-                    mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis 
-                    tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, 
+                    Here on Cloud Hosts, we help invividuals with all sorts of cloud related services.
+                    We specialize on migrating large codebases to the cloud with minimal inpact.
+                    Each year we offer services to millions of invividuals, and millions of companies. 
+                    Take the next step and be a part of Cloud Hosts!
                 </p>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. 
-                    Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-                    mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis 
-                    tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, 
+                    Furthermore, we provide individuals and companies with various tools, to manage individual
+                    and company IT. We provide excellent cloud hosting services, with ECC memeory, powerful CPU 
+                    cores, and an abundant amount of storage. Moreover, we provide inpregneble security for the
+                    data you transmit to our clouds.
                 </p>
             </section>
         )
@@ -40,18 +40,18 @@ class Hero extends React.Component<HeroProps, HeroState> {
 
     renderBenefits = () => {
         return (
-            <section className="benefit-container">
-                <section className="benefit-icon">
+            <section className="hero__benefit-container">
+                <section className="hero__benefit-container__benefit">
                     <FontAwesomeIcon icon="network-wired"/>
 
                     <p>Network</p>
                 </section>
-                <section className="benefit-icon">
+                <section className="hero__benefit-container__benefit">
                     <FontAwesomeIcon icon="cloud"/>
 
                     <p>Cloud</p>
                 </section>
-                <section className="benefit-icon">
+                <section className="hero__benefit-container__benefit">
                     <FontAwesomeIcon icon="database"/>
 
                     <p>Databases</p>
@@ -63,9 +63,9 @@ class Hero extends React.Component<HeroProps, HeroState> {
     render() { 
         return (
             <article className="hero">
-                <section className="image">
-                    <h2>World Wide Hosting</h2>
-                    <Link to="/">Get Started</Link>
+                <section className="hero__image">
+                    <h2 className="hero__image__main-text--title">World Wide Hosting</h2>
+                    <Link className="hero__image__main-text btn--primary btn--medium" to="/">Get Started</Link>
                 </section>
                 {this.renderTextContainer()}
                 {this.renderBenefits()}

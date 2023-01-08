@@ -1,0 +1,17 @@
+@use "sass:math";
+
+@function responsiveUnit($px) {
+    @if (math.is-unitless($px)) {
+        @return math.div($px, 16);
+    };
+
+    @error("Argument 1 has to be unitless")
+};
+
+@function rem($px) {
+    @return responsiveUnit($px) + rem;
+}
+
+@function em($px) {
+    @return responsiveUnit($px) + em;
+}

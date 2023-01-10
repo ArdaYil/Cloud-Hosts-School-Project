@@ -84,3 +84,22 @@
 .text-white {
     color: white;
 }
+
+.underline-effect {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        background-color: black;
+        height: 3px;
+        width: 0;
+        left: 0;
+        bottom: -10px;
+        transition: 300ms;
+    }
+
+    &:hover::after {
+        width: 100%;
+    }
+}

@@ -6,7 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faNetworkWired, faCloud, faDatabase} from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom"
 
-library.add(faNetworkWired, faCloud, faDatabase)
+library.add(faNetworkWired, faCloud, faDatabase);
+
+const medium: number = 600;
+const heroTextClassName: string = "hero__text-item"
 
 interface HeroProps {
     
@@ -18,27 +21,49 @@ interface HeroState {
  
 class Hero extends React.Component<HeroProps, HeroState> {
     state = {}
+    
+    getHeroTextClassName = (): string => "hero__text-item";
 
-    renderTextContainer = () => {
+    getHeroTextOne = (): JSX.Element => {
+        return (
+            <p className={heroTextClassName + "--one"}>
+                Here on Cloud Hosts, we help invividuals with all sorts of cloud related services.
+                We specialize on migrating large codebases to the cloud with minimal inpact.
+                Each year we offer services to millions of invividuals, and millions of companies. 
+                Take the next step and be a part of Cloud Hosts!
+            </p>
+        )
+    }
+
+    getHeroTextTwo = (): JSX.Element => {
+        return (
+            <p className={heroTextClassName + "--two"}>
+                Furthermore, we provide individuals and companies with various tools, to manage individual
+                and company IT. We provide excellent cloud hosting services, with ECC memeory, powerful CPU 
+                cores, and an abundant amount of storage. Moreover, we provide inpregneble security for the
+                data you transmit to our clouds.
+            </p>
+        )
+    }
+
+    renderTextContainer = (): JSX.Element => {
+        if (window.innerWidth > 600) {
+            return (
+                <section className="text-container">
+                    {this.getHeroTextTwo()}
+                </section>
+            )
+        }
+
         return (
             <section className="text-container">
-                <p>
-                    Here on Cloud Hosts, we help invividuals with all sorts of cloud related services.
-                    We specialize on migrating large codebases to the cloud with minimal inpact.
-                    Each year we offer services to millions of invividuals, and millions of companies. 
-                    Take the next step and be a part of Cloud Hosts!
-                </p>
-                <p>
-                    Furthermore, we provide individuals and companies with various tools, to manage individual
-                    and company IT. We provide excellent cloud hosting services, with ECC memeory, powerful CPU 
-                    cores, and an abundant amount of storage. Moreover, we provide inpregneble security for the
-                    data you transmit to our clouds.
-                </p>
+                {this.getHeroTextOne()}
+                {this.getHeroTextTwo()}
             </section>
         )
     }
 
-    renderBenefits = () => {
+    renderBenefits = (): JSX.Element => {
         return (
             <section className="hero__benefit-container">
                 <section className="hero__benefit-container__benefit">
@@ -60,12 +85,15 @@ class Hero extends React.Component<HeroProps, HeroState> {
         )
     }
 
-    render() { 
+    render(): JSX.Element { 
         return (
             <article className="hero">
                 <section className="hero__image">
                     <h2 className="hero__image__main-text--title">World Wide Hosting</h2>
-                    <Link className="hero__image__main-text btn--primary btn--medium" to="/">Get Started</Link>
+                    <section>
+                        <Link className="hero__image__main-text btn--primary btn--medium" to="/">Get Started</Link>
+                        {window.innerWidth > 600 ? this.getHeroTextOne() : null}
+                    </section>
                 </section>
                 {this.renderTextContainer()}
                 {this.renderBenefits()}

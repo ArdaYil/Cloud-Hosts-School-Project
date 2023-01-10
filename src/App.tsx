@@ -34,6 +34,12 @@ class App extends React.Component<AppProps, AppState> {
     onNavigationClose: () => {this.handleNavigationInput(false)}
   }
 
+  private shouldCloseSidebar = (): boolean => {
+    const scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+
+    return scrollTop > 200;
+  }
+
   componentDidMount = (): void => {
     this.setState({plans: getPlans(), reviews: getReviews()});
   }
@@ -43,6 +49,12 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render(): JSX.Element { 
+    window.addEventListener("scroll", event => {
+      if (!this.shouldCloseSidebar()) return;
+
+      this.setState({navigationSidebarOpen: false});
+    })
+
     return (
       <React.Fragment>
         <AppContext.Provider value={this.state}><MainNavbar /></AppContext.Provider>

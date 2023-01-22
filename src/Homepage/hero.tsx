@@ -47,14 +47,8 @@ class Hero extends React.Component<HeroProps, HeroState> {
     }
 
     renderTextContainer = (): JSX.Element => {
-        if (window.innerWidth > 600) {
-            return (
-                <section className="text-container">
-                    {this.getHeroTextTwo()}
-                </section>
-            )
-        }
-
+        if (window.innerWidth > 600) return this.getHeroTextTwo()
+    
         return (
             <section className="text-container">
                 {this.getHeroTextOne()}
@@ -85,6 +79,27 @@ class Hero extends React.Component<HeroProps, HeroState> {
         )
     }
 
+    getSubHeroContent = (): JSX.Element => {
+        return (
+            <React.Fragment>
+                {this.renderTextContainer()}
+                {this.renderBenefits()}
+            </React.Fragment>
+        )
+    }
+
+    renderSubHero = (): JSX.Element => {
+        if (window.innerWidth < 600) {
+            return this.getSubHeroContent();
+        }
+
+        return (
+            <section className="hero__subhero">
+                {this.getSubHeroContent()}
+            </section>
+        )
+    }
+
     render(): JSX.Element { 
         return (
             <article className="hero">
@@ -95,8 +110,7 @@ class Hero extends React.Component<HeroProps, HeroState> {
                         {window.innerWidth > 600 ? this.getHeroTextOne() : null}
                     </section>
                 </section>
-                {this.renderTextContainer()}
-                {this.renderBenefits()}
+                {this.renderSubHero()}
             </article>
         );
     }

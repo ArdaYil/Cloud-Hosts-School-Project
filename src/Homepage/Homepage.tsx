@@ -4,6 +4,7 @@ import * as React from 'react';
 import Reviews from './reviews';
 import Hero from "./hero";
 import Plans from './plans';
+import GeneralText from './generalText';
 
 interface HomepageProps {
     
@@ -32,23 +33,7 @@ class Homepage extends React.Component<HomepageProps, HomepageState> {
                 <main>
                     <header>
                         <Plans />
-                        <article className="text-container">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Minima a vitae totam facilis, modi placeat dolorum blanditiis
-                                ratione quisquam aliquam!
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Minima a vitae totam facilis, modi placeat dolorum blanditiis
-                                ratione quisquam aliquam!
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Minima a vitae totam facilis, modi placeat dolorum blanditiis
-                                ratione quisquam aliquam!
-                            </p>
-                        </article>
+                        <GeneralText />
                     </header>
                     <footer>
                         <Reviews />

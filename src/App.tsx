@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, Navigate} from 'react-router-dom';
 import MainNavbar from './common/mainNavbar';
 import MainFooter from './common/mainFooter';
 import Homepage from './Homepage/Homepage';
@@ -11,6 +11,7 @@ import "../cssDist/style.css";
 import { PlanInterface, ReviewInterface } from './Interfaces';
 import { getReviews } from './services/reviewsService';
 import { getPlans } from './services/planService';
+import NotFound from './notFound';
 
 interface AppProps {
   
@@ -61,6 +62,7 @@ class App extends React.Component<AppProps, AppState> {
 
         <Routes>
           <Route path="/" element={<AppContext.Provider value={this.state}><Homepage /></AppContext.Provider>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <MainFooter />
       </React.Fragment>

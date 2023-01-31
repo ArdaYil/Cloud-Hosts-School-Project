@@ -5,6 +5,10 @@ import { PlanInterface } from "../Interfaces";
 import AppContext from '../AppContext';
 import { Link } from 'react-router-dom';
 
+const words: string[] = [
+    "one", "two", "three"
+]
+
 interface PlansProps {
     
 }
@@ -19,9 +23,15 @@ class Plans extends React.Component<PlansProps, PlansState> {
 
     state = {}
 
-    renderPlan = (plan : PlanInterface) => {
+    getPlanClassName = (index: number): string => {
+        const text = words[index];
+
+        return `plans__plan--${text}`;
+    }
+
+    renderPlan = (plan : PlanInterface, index: number): JSX.Element => {
         return (
-            <article key={plan.title} className="plans__plan card--shadow">
+            <article key={plan.title} className={`${this.getPlanClassName(index)} card--shadow`}>
                 <section className="plans__plan__section">
                     <h3 className="uppercase plans__plan__title">{plan.title}</h3>
                     <p className="plans__plan__description">
@@ -38,13 +48,13 @@ class Plans extends React.Component<PlansProps, PlansState> {
         )
     }
 
-    renderPlans = () => {
+    renderPlans = (): JSX.Element => {
         const {plans} = this.context;
 
-        return plans.map((plan: PlanInterface) => this.renderPlan(plan))
+        return plans.map((plan: PlanInterface, index: number) => this.renderPlan(plan, index))
     }
 
-    render() { 
+    render(): JSX.Element { 
         return (
             <article className="plans">
                 {this.renderPlans()}

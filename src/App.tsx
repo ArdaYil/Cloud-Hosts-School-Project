@@ -22,17 +22,21 @@ interface AppState {
   plans: PlanInterface[];
   reviewLimit: number;
   navigationSidebarOpen: boolean;
+  mediumBreakpoint: boolean;
   onNavigationOpen(): void;
   onNavigationClose(): void;
 }
+
+let currentWidth = window.innerWidth;
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     plans: [],
     reviewLimit: 4,
     reviews: [],
     navigationSidebarOpen: false,
+    mediumBreakpoint: false,
     onNavigationOpen: () => {this.handleNavigationInput(true)},
-    onNavigationClose: () => {this.handleNavigationInput(false)}
+    onNavigationClose: () => {this.handleNavigationInput(false)},
   }
 
   private shouldCloseSidebar = (): boolean => {
@@ -54,6 +58,24 @@ class App extends React.Component<AppProps, AppState> {
       if (!this.shouldCloseSidebar()) return;
 
       this.setState({navigationSidebarOpen: false});
+    })
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 600) {
+        if (currentWidth > 600) {
+          console.log("Change false");
+          this.setState({mediumBreakpoint: false});
+          currentWidth = window.innerWidth;
+        }
+      }
+
+      else {
+        if (currentWidth <= 600) {
+          console.log("Change true");
+          this.setState({mediumBreakpoint: true});
+          currentWidth = window.innerWidth;
+        }
+      }
     })
 
     return (

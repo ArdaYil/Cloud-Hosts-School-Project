@@ -1,6 +1,7 @@
 
 
 import * as React from 'react';
+import AppContext from '../AppContext';
 
 interface GeneralTextProps {
     
@@ -11,10 +12,13 @@ interface GeneralTextState {
 }
  
 class GeneralText extends React.Component<GeneralTextProps, GeneralTextState> {
+    static contextType = AppContext;
+    declare context: React.ContextType<typeof AppContext>;
+
     state = {};
 
     getClassName = (): string => {
-        if (window.innerWidth < 600) return "text-container";
+        if (this.context.mediumBreakpoint == false) return "text-container";
 
         return "general-text";
     }

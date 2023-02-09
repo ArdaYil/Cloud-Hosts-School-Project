@@ -34,7 +34,7 @@ class App extends React.Component<AppProps, AppState> {
     reviewLimit: 4,
     reviews: [],
     navigationSidebarOpen: false,
-    mediumBreakpoint: false,
+    mediumBreakpoint: window.innerWidth > 600,
     onNavigationOpen: () => {this.handleNavigationInput(true)},
     onNavigationClose: () => {this.handleNavigationInput(false)},
   }

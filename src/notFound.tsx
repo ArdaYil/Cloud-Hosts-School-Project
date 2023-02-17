@@ -14,7 +14,9 @@ class NotFound extends React.Component<NotFoundProps, NotFoundState> {
     render() { 
         return (
             <React.Fragment>
-                <h1>Not Found</h1>
+                <div className="not-found">
+                    <h1>Not Found</h1>
+                </div>
             </React.Fragment>
         );
     }

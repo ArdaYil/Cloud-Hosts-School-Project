@@ -47,6 +47,26 @@ class App extends React.Component<AppProps, AppState> {
 
   componentDidMount = (): void => {
     this.setState({plans: getPlans(), reviews: getReviews()});
+    
+    const body = document.querySelector("body");
+    const footer = document.querySelector(".footer");
+
+    if (!body?.clientHeight) return;
+    if (!footer) return;
+
+    if (window.innerHeight - (body?.clientHeight - 100) > 0) {
+      body.style.overflowY = "hidden";
+      footer.style.position = "absolute";
+      footer.style.position = "100%";
+      footer.style.position = "100%";
+      footer.style.position = "0";
+
+    bottom: 0;
+    }
+
+    else {
+      body.style.overflowY = "scroll";
+    }
   }
 
   handleNavigationInput = (value: boolean) => {

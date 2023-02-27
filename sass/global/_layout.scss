@@ -333,9 +333,6 @@
     display: grid;
     gap: u.em($gap);
     padding: u.em(10);
-    position: absolute;
-    width: 100%;
-    bottom: 0;
     grid-template-areas: 
         "footer-one"
         "footer-two"

@@ -49,7 +49,7 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({plans: getPlans(), reviews: getReviews()});
     
     const body = document.querySelector("body");
-    const footer = document.querySelector(".footer");
+    const footer: any = document.querySelector(".footer");
 
     if (!body?.clientHeight) return;
     if (!footer) return;
@@ -57,15 +57,13 @@ class App extends React.Component<AppProps, AppState> {
     if (window.innerHeight - (body?.clientHeight - 100) > 0) {
       body.style.overflowY = "hidden";
       footer.style.position = "absolute";
-      footer.style.position = "100%";
-      footer.style.position = "100%";
-      footer.style.position = "0";
-
-    bottom: 0;
+      footer.style.width = "100%";
+      footer.style.bottom = "0";
     }
 
     else {
       body.style.overflowY = "scroll";
+      footer.style.position = "initial";
     }
   }
 

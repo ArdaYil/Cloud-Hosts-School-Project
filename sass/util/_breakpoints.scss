@@ -6,6 +6,8 @@ $breakpoints-up: (
     "medium": f.em(600),
     "large": f.em(1200),
     "xlarge": f.em(1900),
+    "footer": f.em(700),
+    "plans": f.em(840),
 
     "nav": f.em(1000),
 );
@@ -16,7 +18,6 @@ $breakpoints-down: (
     "large": f.em(1899.98),
 
     "nav": f.em(999.98),
-    "a": 100vh,
 );
 
 @mixin breakpoint-up($size) {

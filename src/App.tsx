@@ -28,6 +28,8 @@ interface AppState {
 }
 
 let currentWidth = window.innerWidth;
+let currentWidth1 = window.innerWidth;
+let smallPage = false;
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     plans: [],
@@ -45,26 +47,55 @@ class App extends React.Component<AppProps, AppState> {
     return scrollTop > 200;
   }
 
-  componentDidMount = (): void => {
-    this.setState({plans: getPlans(), reviews: getReviews()});
+  private getBodyHeight(body: HTMLElement) {
+    const clientHeight = body.clientHeight;
+    let paddingBottom = parseInt(body.style.paddingBottom);
     
+    paddingBottom = (Number.isNaN(paddingBottom)) ? 0 : paddingBottom;
+    console.log(paddingBottom)
+    return clientHeight - paddingBottom * 16;
+  }
+
+  private footerRendering = () => {
     const body = document.querySelector("body");
     const footer: any = document.querySelector(".footer");
+    const html: any = document.querySelector("html");
 
     if (!body?.clientHeight) return;
     if (!footer) return;
-
-    if (window.innerHeight - (body?.clientHeight - 100) > 0) {
-      body.style.overflowY = "hidden";
+    if (!html) return;
+    
+    if (window.innerHeight - (this.getBodyHeight(body) - 100) > 0) {
       footer.style.position = "absolute";
       footer.style.width = "100%";
-      footer.style.bottom = "0";
+
+      if (window.innerWidth < 700) {
+        let padding = 30
+
+        body.style.paddingBottom = padding + "em";
+        footer.style.bottom = -padding + "em";
+        html.style.overflowY = "scroll";
+      }
+
+      else {
+        body.style.paddingBottom = "0";
+        html.style.overflowY = "hidden";
+        footer.style.position = "absolute";
+        footer.style.width = "100%";
+        footer.style.bottom = "30px";
+        console.log("here")
+      }
     }
 
     else {
-      body.style.overflowY = "scroll";
+      html.style.overflowY = "scroll";
       footer.style.position = "initial";
     }
+  }
+
+  componentDidMount = (): void => {
+    this.setState({plans: getPlans(), reviews: getReviews()});
+    this.footerRendering();
   }
 
   handleNavigationInput = (value: boolean) => {
@@ -79,6 +110,24 @@ class App extends React.Component<AppProps, AppState> {
     })
 
     window.addEventListener("resize", () => {
+      if (window.innerWidth < 700) {
+        if (currentWidth1 >= 700) {
+
+          currentWidth1 = window.innerWidth;
+
+          this.footerRendering();
+        }
+      }
+
+      else {
+        console.log("Width greater than 700")
+        if (currentWidth1 < 700) {
+          console.log(currentWidth);
+          currentWidth1 = window.innerWidth;
+          this.footerRendering();
+        }
+      }
+
       if (window.innerWidth <= 600) {
         if (currentWidth > 600) {
           console.log("Change false");

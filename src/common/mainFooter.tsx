@@ -30,7 +30,7 @@ class MainFooter extends React.Component<MainFooterProps, MainFooterState> {
                     <article className="footer__social-container">
                         <img src="../public/icons/facebook.png" alt="" />
                         <img src="../public/icons/snapchat.png" alt="" />
-                        <img src="../public/icons/facebook.png" alt="" />
+                        <img src="../public/icons/instagram.png" alt="" />
                     </article>
                     <article className="footer__bottom-links">
                         <p className="capitalize footer__link-item">cloud hosts - 2023 &copy;</p>

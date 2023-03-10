@@ -12,6 +12,7 @@ import { PlanInterface, ReviewInterface } from './Interfaces';
 import { getReviews } from './services/reviewsService';
 import { getPlans } from './services/planService';
 import NotFound from './notFound';
+import httpService from "./services/httpService";
 
 interface AppProps {
   
@@ -93,7 +94,9 @@ class App extends React.Component<AppProps, AppState> {
     }
   }
 
-  componentDidMount = (): void => {
+  componentDidMount = async (): Promise<void> => {
+    const result = await httpService.get();
+    console.log(result);
     this.setState({plans: getPlans(), reviews: getReviews()});
     this.footerRendering();
   }

@@ -2,8 +2,15 @@
 
 import axios from "axios";
 
-const endpoint: string = "";
+const endpoint: string = "http://localhost:8000/api/reviews";
+const config = {
+    headers: {
+        "Access-Control-Allow-Origin": "*"
+    }
+}
 
-export function get() {
-    return axios.get()
+const get = () => axios.get(endpoint, config);
+
+export default {
+    get: get,
 }

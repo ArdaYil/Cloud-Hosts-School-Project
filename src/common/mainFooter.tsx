@@ -28,9 +28,9 @@ class MainFooter extends React.Component<MainFooterProps, MainFooterState> {
                         <Link to="/" className="capitalize">about us</Link>
                     </article>
                     <article className="footer__social-container">
-                        <img src="/images/icons/facebook.png" alt="" />
-                        <img src="/images/icons/snapchat.png" alt="" />
-                        <img src="/images/icons/instagram.png" alt="" />
+                        <img src="/icons/facebook.png" alt="" />
+                        <img src="/icons/snapchat.png" alt="" />
+                        <img src="/icons/instagram.png" alt="" />
                     </article>
                     <article className="footer__bottom-links">
                         <p className="capitalize footer__link-item">cloud hosts - 2023 &copy;</p>

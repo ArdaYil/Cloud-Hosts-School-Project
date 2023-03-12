@@ -28,7 +28,7 @@ class MainNavbar extends React.Component<MainNavbarProps, MainNavbarState> {
                 <NavigationSidebar />
 
                 <div>
-                    <img className="icon-small" src="../public/icons/usa.png"/>
+                    <img className="icon-small" src="/icons/usa.png"/>
                 </div>
                 <Link to="/" className="title capitalize">cloud hosts</Link>
                 <i onClick={onNavigationOpen} className="top-nav__btn fa fa-bars"/>

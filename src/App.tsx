@@ -8,11 +8,14 @@ import MainFooter from './common/mainFooter';
 import Homepage from './Homepage/Homepage';
 import AppContext from './AppContext';
 import "../cssDist/style.css";
-import { PlanInterface, ReviewInterface } from './Interfaces';
-import { getReviews } from './services/reviewsService';
+import { PlanInterface, ReviewInterface, CreateReviewInterface, CreateReviewErrorsInterface } from './Interfaces';
 import { getPlans } from './services/planService';
 import NotFound from './notFound';
-import httpService from "./services/httpService";
+import ReviewsPage from './reviewsPage';
+import NewReview from './newReview';
+import joi from "joi";
+import { getReviews, getReviewsAsync, saveReview, setReview } from './services/reviewsService';
+import { useNavigate } from "react-router-dom";
 
 interface AppProps {
   
@@ -21,6 +24,12 @@ interface AppProps {
 interface AppState {
   reviews: ReviewInterface[];
   plans: PlanInterface[];
+  createReview: CreateReviewInterface;
+  createReviewErrors: CreateReviewErrorsInterface;
+  updateAuthor: Function;
+  updateContent: Function;
+  updateRating: Function;
+  composeReview: Function;
   reviewLimit: number;
   navigationSidebarOpen: boolean;
   mediumBreakpoint: boolean;
@@ -34,9 +43,15 @@ let smallPage = false;
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     plans: [],
-    reviewLimit: 4,
+    reviewLimit: 3,
     reviews: [],
     navigationSidebarOpen: false,
+    createReview: {author: "", content: "", rating: 1},
+    createReviewErrors: {author: false, content: false},
+    updateAuthor: (text: string) => this.updateAuthor(text),
+    updateContent: (text: string) => this.updateContent(text),
+    updateRating: (rating: number) => this.updateRating(rating),
+    composeReview: () => this.composeReview(),
     mediumBreakpoint: window.innerWidth > 600,
     onNavigationOpen: () => {this.handleNavigationInput(true)},
     onNavigationClose: () => {this.handleNavigationInput(false)},
@@ -48,61 +63,79 @@ class App extends React.Component<AppProps, AppState> {
     return scrollTop > 200;
   }
 
-  private getBodyHeight(body: HTMLElement) {
-    const clientHeight = body.clientHeight;
-    let paddingBottom = parseInt(body.style.paddingBottom);
-    
-    paddingBottom = (Number.isNaN(paddingBottom)) ? 0 : paddingBottom;
-    console.log(paddingBottom)
-    return clientHeight - paddingBottom * 16;
-  }
-
-  private footerRendering = () => {
-    const body = document.querySelector("body");
-    const footer: any = document.querySelector(".footer");
-    const html: any = document.querySelector("html");
-
-    if (!body?.clientHeight) return;
-    if (!footer) return;
-    if (!html) return;
-    
-    if (window.innerHeight - (this.getBodyHeight(body) - 100) > 0) {
-      footer.style.position = "absolute";
-      footer.style.width = "100%";
-
-      if (window.innerWidth < 700) {
-        let padding = 30
-
-        body.style.paddingBottom = padding + "em";
-        footer.style.bottom = -padding + "em";
-        html.style.overflowY = "scroll";
-      }
-
-      else {
-        body.style.paddingBottom = "0";
-        html.style.overflowY = "hidden";
-        footer.style.position = "absolute";
-        footer.style.width = "100%";
-        footer.style.bottom = "30px";
-        console.log("here")
-      }
-    }
-
-    else {
-      html.style.overflowY = "scroll";
-      footer.style.position = "initial";
-    }
-  }
-
   componentDidMount = async (): Promise<void> => {
-    const result = await httpService.get();
-    console.log(result);
-    this.setState({plans: getPlans(), reviews: getReviews()});
-    this.footerRendering();
+    const reviews = await getReviewsAsync();
+    
+    this.setState({plans: getPlans(), reviews: reviews});
   }
 
   handleNavigationInput = (value: boolean) => {
     this.setState({navigationSidebarOpen: value});
+  }
+
+  updateAuthor = (text: string) => {
+    const createReview = {...this.state.createReview}
+    createReview.author = text;
+
+    this.setState({createReview})
+  }
+
+  updateContent = (text: string) => {
+    const createReview = {...this.state.createReview}
+    createReview.content = text;
+
+    this.setState({createReview})
+  }
+
+  updateRating = (rating: number) => {
+    const createReview = {...this.state.createReview}
+    createReview.rating = rating;
+
+    this.setState({createReview})
+  }
+
+  validateReview = () => {
+    const schema = joi.object({
+      author: joi.string().min(2).max(50).required(),
+      content: joi.string().min(20).max(200).required(),
+      rating: joi.number().min(1).max(5).required()
+    });
+
+    return schema.validate(this.state.createReview)
+  }
+
+  composeReview = async () => {
+    const { error } = this.validateReview()
+    const errors = {...this.state.createReviewErrors}
+
+    errors.author = false;
+    errors.content = false;
+
+    if (error) {
+      const { author, content } = this.state.createReview
+
+      if (author.length < 2 || author.length > 50) errors.author = true
+      if (content.length < 20 || content.length > 200) errors.content = true
+
+      this.setState({createReviewErrors: errors})
+
+      return;
+    }
+
+    const review = await saveReview(this.state.createReview);
+    const createReview = {...this.state.createReview};
+
+    createReview.author = "";
+    createReview.content = "";
+    createReview.rating = 1;
+
+    setReview(review);
+
+    this.setState({
+      createReviewErrors: errors, 
+      reviews: getReviews(), 
+      createReview
+    });
   }
 
   render(): JSX.Element { 
@@ -113,24 +146,6 @@ class App extends React.Component<AppProps, AppState> {
     })
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 700) {
-        if (currentWidth1 >= 700) {
-
-          currentWidth1 = window.innerWidth;
-
-          this.footerRendering();
-        }
-      }
-
-      else {
-        console.log("Width greater than 700")
-        if (currentWidth1 < 700) {
-          console.log(currentWidth);
-          currentWidth1 = window.innerWidth;
-          this.footerRendering();
-        }
-      }
-
       if (window.innerWidth <= 600) {
         if (currentWidth > 600) {
           console.log("Change false");
@@ -147,13 +162,15 @@ class App extends React.Component<AppProps, AppState> {
         }
       }
     })
-
+    
     return (
       <React.Fragment>
         <AppContext.Provider value={this.state}><MainNavbar /></AppContext.Provider>
 
         <Routes>
           <Route path="/" element={<AppContext.Provider value={this.state}><Homepage /></AppContext.Provider>}/>
+          <Route path="/reviews/new" element={<AppContext.Provider value={this.state}><NewReview /></AppContext.Provider>}/>
+          <Route path="/reviews" element={<AppContext.Provider value={this.state}><ReviewsPage /></AppContext.Provider>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
         <MainFooter />

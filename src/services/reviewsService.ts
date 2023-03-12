@@ -1,82 +1,28 @@
 
 
 import { ReviewInterface } from "../Interfaces";
+import httpService from "./httpService";
 
-const reviews: ReviewInterface[] = [
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 1,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 2,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 3,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 4,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 5,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 6,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 7,
-    },
-    {
-        author: "John Doe",
-        content: `
-            Amazing services. My company has reach unreachable goals, thanks to Cloud Hosts awesome
-            Services. I defenetly recommend Cloud Hosts
-        `,
-        rating: 1,
-        id: 8,
-    },
-]
+let reviews: ReviewInterface[] = []
+
+export async function getReviewsAsync(): Promise<ReviewInterface[]> {
+    const { data } = await httpService.get();
+
+    reviews = data;
+
+    return getReviews();
+}
 
 export function getReviews(): ReviewInterface[] {
-    return reviews;
+    return reviews.sort((a, b) => b.rating - a.rating);
+}
+
+export function setReview(review : ReviewInterface) {
+    reviews.push(review);
+}
+
+export async function saveReview(data: object): Promise<ReviewInterface> {
+    const {data: review} = await httpService.post(data);
+
+    return review;
 }

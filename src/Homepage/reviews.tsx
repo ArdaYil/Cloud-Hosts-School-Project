@@ -8,6 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import AppContext from '../AppContext';
 import { ReviewInterface } from '../Interfaces';
 import { Link } from "react-router-dom";
+import CreateReview from '../common/createReview';
 
 library.add(faStar)
 
@@ -40,11 +41,13 @@ class Reviews extends React.Component<ReviewsProps, ReviewsState> {
 
     getReview = (review: ReviewInterface) => {
         return (
-            <section key={review.id} className="reviews__review card--shadow">
-                <h3 className="reviews__review__title">{review.author}</h3>
-                <p>
-                    {review.content}
-                </p>
+            <section key={review._id} className="reviews__review card--shadow">
+                <div className="reviews__review__head">
+                    <h3 className="reviews__review__title">{review.author}</h3>
+                    <p>
+                        {review.content}
+                    </p>
+                </div>
                 <div className="reviews__review__star-container">
                     {this.renderStars(review.rating)}
                 </div>
@@ -59,7 +62,7 @@ class Reviews extends React.Component<ReviewsProps, ReviewsState> {
         return reviews.map((review: ReviewInterface) => this.getReview(review));
     }
 
-    render() { 
+    mainRendering = () => {
         return (
             <React.Fragment>
                 <h2 className="title reviews__title uppercase">reviews</h2>
@@ -67,8 +70,19 @@ class Reviews extends React.Component<ReviewsProps, ReviewsState> {
                 <article className="reviews">
                     {this.renderReviews()}
                 </article>
+            </React.Fragment>
+        )
+    }
 
-                <Link to="/" className="more-reviews-link btn btn--primary btn--medium">All Reviews</Link>
+    render() { 
+        const {reviews} = this.context;
+        const reviewText = reviews.length > 0 ? "All Reviews" : "Create Review"
+
+        return (
+            <React.Fragment>
+                {reviews.length > 0 ? this.mainRendering() : null}
+
+                <CreateReview page="/reviews" text={reviewText}/>
             </React.Fragment>
         );
     }

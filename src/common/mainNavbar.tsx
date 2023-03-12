@@ -30,7 +30,7 @@ class MainNavbar extends React.Component<MainNavbarProps, MainNavbarState> {
                 <div>
                     <img className="icon-small" src="../public/icons/usa.png"/>
                 </div>
-                <h1 className="title capitalize">cloud hosts</h1>
+                <Link to="/" className="title capitalize">cloud hosts</Link>
                 <i onClick={onNavigationOpen} className="top-nav__btn fa fa-bars"/>
                 <article className="top-nav__link-container">
                     <Link to="/" className="underline-effect">Plans</Link>

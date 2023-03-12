@@ -25,6 +25,7 @@
     border-radius: f.em(5);
     padding-inline: f.em(10);
     padding-block: f.em(5);
+    cursor: pointer;
 
     &--primary#{&}--large {
         @extend #{$b};

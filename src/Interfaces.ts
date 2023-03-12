@@ -9,5 +9,15 @@ export interface ReviewInterface {
     author: string;
     content: string;
     rating: number;
-    id: number;
+    _id: string;
+}
+
+export interface CreateReviewInterface {
+    author: string,
+    content: string;
+    rating: number;
+}
+export interface CreateReviewErrorsInterface {
+    author: boolean,
+    content: boolean;
 }

@@ -12,6 +12,7 @@
     justify-content: space-between;
     margin-inline: u.em(16);
     margin-block: u.em(30);
+    position: relative;
 
     .important-div {
         @include u.breakpoint-down(nav) {
@@ -86,7 +87,7 @@
         padding-block: u.em(20);
         margin-bottom: u.em(80);
         height: auto;
-        background-image: url("../../public/images/world-image.webp");
+        background-image: url("/images/world-image.webp");
 
         @include u.breakpoint-up(medium) {
             gap: u.em(20);
@@ -269,22 +270,13 @@
 
 .reviews {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: u.em(40);
     margin-bottom: u.em(50);
+    padding-inline: u.em(20);
     max-width: u.em(1500);
     margin-inline: auto;
-
-    @include u.breakpoint-up(medium) {
-        grid-template-columns: repeat(2, 1fr); 
-        align-content: stretch;
-        padding-inline: u.em(30);
-    }
-
-    @include u.breakpoint-up(large) {
-        grid-template-columns: repeat(4, 1fr);
-        gap: u.em(100);
-    }
+    justify-items: center;
 
     &__title {
         text-align: center;
@@ -292,24 +284,25 @@
     }
 
     &__review {
-        $root: &;
-
-        @include u.breakpoint-up(medium) {
-            width: 100%;
-        }
-
-        width: min(60%, 250px);
-        margin-inline: auto;
+        width: 100%;
         padding: u.em(20);
         gap: u.em(10);
         display: flex;
         flex-direction: column;
-        max-width: 350px;
+        max-width: 450px;
+        height: 300px;
+        flex: 0 0 auto;
 
         &__title {
-            text-align: center;
             font-weight: 600;
             font-size: u.rem(20);
+            word-wrap: break-word;
+        }
+
+        p {
+            width: 100% !important;
+            white-space: normal !important;
+            word-wrap: break-word;
         }
 
         &__star-container {
@@ -317,22 +310,28 @@
                 color: var(--clr-primary);
             }
         }
+
+        &__head {
+            height: 90%;
+        }
     }
 }
 
 // Navigation Code
 
 .navigation-sidebar {
-    position: absolute;
+    position: fixed;
     right: 0;
-    top: u.em(-30);
+    top: 0;
+    bottom: 100vh;
     height: 300vh;
     background-color: rgba(0, 0, 0);
     opacity: 0.9;
     width: 0;
     padding: 0;
-    transition: width 500ms, padding 500ms;
+    transition: all 500ms, padding 500ms;
     transition-timing-function: ease-out;
+    z-index: 2;
     padding: 0;
     padding-top: u.em(20);
 
@@ -426,11 +425,103 @@
     text-align: center;
 }
 
+%message {
+    font-weight: 700;
+    font-size: u.rem(32);
+    margin-left: u.em(20);
+    margin-top: u.em(30);
+}
+
 .not-found {
     h2 {
-        font-weight: 700;
-        font-size: u.rem(32);
-        margin-left: u.em(20);
-        margin-top: u.em(30);
+        @extend %message;
     }
+}
+
+.no-reviews {
+    @extend %message;
+    margin-top: u.em(-20);
+}
+
+.review-page-wrapper {
+    min-height: 80vh;
+}
+
+.review-page {
+    margin-top: u.em(80);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: u.em(40);
+    margin-bottom: u.em(50);
+    padding-inline: u.em(20);
+    max-width: u.em(1800);
+    margin-inline: auto;
+    justify-items: center;
+
+    .btn {
+        margin-inline: 0;
+        margin-top: u.em(20);
+        margin-left: u.em(30);
+        margin-right: auto;
+    }
+}
+
+.new-review {
+    background-color: black;
+    padding: u.em(10) u.em(20) u.em(30);
+    margin: u.em(20);
+    margin-top: u.em(50);
+    border-radius: u.em(10);
+    padding-block: auto;
+    max-width: u.em(800);
+
+    input, .text-field {
+        outline: none;
+        font-size: u.em(22);
+        padding: u.em(5) u.em(10);
+        border-radius: u.em(7);
+        margin-bottom: u.em(5);
+        border: none;
+        background-color: white;
+    }
+
+    .input-wrapper {
+        margin-bottom: u.em(20);
+    }
+
+    textarea {
+        font-size: u.em(16);
+    }
+
+    .text-field {
+        resize: none;
+        height: u.em(200);
+    }
+
+    .text-field-wrapper {
+        margin-bottom: u.em(20);
+    }
+
+    &__star-container {
+        svg {
+            font-size: u.em(40);
+        }
+
+        margin-bottom: u.em(20);
+    }
+
+    &__title {
+        color: white;
+        font-size: u.em(24);
+        font-weight: 700;
+        margin-bottom: u.em(10);
+    }
+
+    .btn {
+        width: fit-content;
+    }
+}
+
+.new-review-wrapper {
+    min-height: 70vh;
 }

@@ -30,6 +30,7 @@ interface AppState {
   updateContent: Function;
   updateRating: Function;
   composeReview: Function;
+  maxContent: number,
   reviewLimit: number;
   navigationSidebarOpen: boolean;
   mediumBreakpoint: boolean;
@@ -48,6 +49,7 @@ class App extends React.Component<AppProps, AppState> {
     navigationSidebarOpen: false,
     createReview: {author: "", content: "", rating: 1},
     createReviewErrors: {author: false, content: false},
+    maxContent: 490,
     updateAuthor: (text: string) => this.updateAuthor(text),
     updateContent: (text: string) => this.updateContent(text),
     updateRating: (rating: number) => this.updateRating(rating),
@@ -60,7 +62,7 @@ class App extends React.Component<AppProps, AppState> {
   private shouldCloseSidebar = (): boolean => {
     const scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-    return scrollTop > 200;
+    return scrollTop > this.state.maxContent;
   }
 
   componentDidMount = async (): Promise<void> => {
@@ -97,7 +99,7 @@ class App extends React.Component<AppProps, AppState> {
   validateReview = () => {
     const schema = joi.object({
       author: joi.string().min(2).max(50).required(),
-      content: joi.string().min(20).max(200).required(),
+      content: joi.string().min(20).max(this.state.maxContent).required(),
       rating: joi.number().min(1).max(5).required()
     });
 
@@ -107,6 +109,7 @@ class App extends React.Component<AppProps, AppState> {
   composeReview = async () => {
     const { error } = this.validateReview()
     const errors = {...this.state.createReviewErrors}
+    const currentState = this.state;
 
     errors.author = false;
     errors.content = false;
@@ -115,26 +118,39 @@ class App extends React.Component<AppProps, AppState> {
       const { author, content } = this.state.createReview
 
       if (author.length < 2 || author.length > 50) errors.author = true
-      if (content.length < 20 || content.length > 200) errors.content = true
+      if (content.length < 20 || content.length > this.state.maxContent) errors.content = true
 
       this.setState({createReviewErrors: errors})
 
       return;
     }
 
-    const review = await saveReview(this.state.createReview);
+    const reviewData = {...this.state.createReview};
     const createReview = {...this.state.createReview};
 
     createReview.author = "";
     createReview.content = "";
     createReview.rating = 1;
 
-    setReview(review);
-
     this.setState({
       createReviewErrors: errors, 
       reviews: getReviews(), 
       createReview
+    });
+    console.log(reviewData)
+    const review = await saveReview(reviewData);
+
+    console.log(review)
+
+    if (!review) {
+      this.setState(currentState);
+      return;
+    }
+
+    setReview(review);
+
+    this.setState({
+      reviews: getReviews(), 
     });
   }
 
@@ -148,7 +164,6 @@ class App extends React.Component<AppProps, AppState> {
     window.addEventListener("resize", () => {
       if (window.innerWidth <= 600) {
         if (currentWidth > 600) {
-          console.log("Change false");
           this.setState({mediumBreakpoint: false});
           currentWidth = window.innerWidth;
         }
@@ -156,7 +171,6 @@ class App extends React.Component<AppProps, AppState> {
 
       else {
         if (currentWidth <= 600) {
-          console.log("Change true");
           this.setState({mediumBreakpoint: true});
           currentWidth = window.innerWidth;
         }

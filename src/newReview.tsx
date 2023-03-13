@@ -29,8 +29,6 @@ class NewReview extends Form {
             values[i - 1] = false;
         }
 
-        console.log(values)
-
         const stars = [];
 
         for (let i = 0; i < 5; i++) {

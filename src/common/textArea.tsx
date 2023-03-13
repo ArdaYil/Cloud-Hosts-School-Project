@@ -1,6 +1,7 @@
 
 
 import * as React from 'react';
+import AppContext from '../AppContext';
 
 interface TextAreaProps {
     name: string;
@@ -14,12 +15,15 @@ interface TextAreaState {
 }
  
 class TextArea extends React.Component<TextAreaProps, TextAreaState> {
+    static contextType = AppContext;
+    declare context: React.ContextType<typeof AppContext>
+
     state = {}
 
     render() {
         const {name, placeholder, value, onChange} = this.props;
         const { length } = value;
-        const color = (length < 20 || length > 200) ? "red" : "black"
+        const color = (length < 20 || length > this.context.maxContent) ? "red" : "black"
         const textAmountStyle = { color }
 
         return (
@@ -35,7 +39,7 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
                 <p 
                     className="textAmount" 
                     style={textAmountStyle}>
-                    {length + "/" + 200}
+                    {length + "/" + this.context.maxContent}
                 </p>
             </div>
         );

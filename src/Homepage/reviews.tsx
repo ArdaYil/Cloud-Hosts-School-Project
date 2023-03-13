@@ -19,8 +19,6 @@ interface ReviewsProps {
 interface ReviewsState {
     
 }
-
-console.log(typeof AppContext);
 class Reviews extends React.Component<ReviewsProps, ReviewsState> {
     static contextType = AppContext;
     declare context: React.ContextType<typeof AppContext>;

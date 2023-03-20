@@ -304,6 +304,10 @@
             width: 100% !important;
             white-space: normal !important;
             word-wrap: break-word;
+
+            @include u.breakpoint-down(small-review) {
+                font-size: u.rem(13.8);
+            }
         }
 
         &__star-container {

@@ -18,6 +18,7 @@ $breakpoints-down: (
     "large": f.em(1899.98),
 
     "nav": f.em(999.98),
+    "small-review": f.em(499.98),
 );
 
 @mixin breakpoint-up($size) {
